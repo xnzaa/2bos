@@ -1,6 +1,5 @@
 
-;%define	_BOOT_DEBUG_	; 宏定义方便调试
-
+;%define	_BOOT_DEBUG_	; 宏定义方便调
 %ifdef	_BOOT_DEBUG_
 	org  0100h			; 调试状态, 可直接运行，0100h为显卡存储
 %else
