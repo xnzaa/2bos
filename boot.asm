@@ -1,11 +1,10 @@
-%define	_BOOT_DEBUG_	; 宏定义方便调
+;%define	_BOOT_DEBUG_	; 宏定义方便调
 
 %ifdef	_BOOT_DEBUG_
 	org  0100h			; 调试状态, 可直接运行，0100h为显卡存储
 %else
 	org  07c00h			; Boot 状态, Bios 将把 Boot Sector 加载到 0:7C00 处并开始执行,软盘启动
 %endif
-
 	mov	ax, cs
 	mov	ds, ax
 	mov	es, ax
