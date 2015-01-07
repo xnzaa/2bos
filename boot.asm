@@ -1,5 +1,4 @@
-
-;%define	_BOOT_DEBUG_	; 宏定义方便调
+%define	_BOOT_DEBUG_	; 宏定义方便调
 
 %ifdef	_BOOT_DEBUG_
 	org  0100h			; 调试状态, 可直接运行，0100h为显卡存储
@@ -10,9 +9,9 @@
 	mov	ax, cs
 	mov	ds, ax
 	mov	es, ax
-	call	DispStr			; 调用显示字符串例程
-	jmp	$			; 等待
-DispStr:
+	call	str			; 调用显示字符串例程
+	jmp	$			; 死循环
+str:
 	mov	ax, BootMessage
 	mov	bp, ax			; ES:BP = 串地址
 	mov	cx, 23			; CX = 串长度
@@ -23,4 +22,4 @@ DispStr:
 	ret
 BootMessage:		db	"Hello, XBB! I am an OS"
 times 	510-($-$$)	db	0	; 填充软盘的第一扇区剩下的空间，使生成的二进制代码恰好为512字节
-dw 	0xaa55				; 扇区结束标志
+dw 	0xaa55				; 引导扇区结束标志
