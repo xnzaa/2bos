@@ -8,7 +8,7 @@
 org	0100h
 	jmp	LABEL_BEGIN
 
-[SECTION .gdt]
+[SECTION .gdt]; 自定义 名字为 .gdt的段
 ; GDT
 ;                                         段基址,      段界限     , 属性
 LABEL_GDT:		Descriptor	       0,                0, 0     		; 空描述符
@@ -26,7 +26,7 @@ SelectorVideo		equ	LABEL_DESC_VIDEO	- LABEL_GDT
 ; END of [SECTION .gdt]
 
 [SECTION .s16]
-[BITS	16]
+[BITS	16];16位段
 LABEL_BEGIN:
 	mov	ax, cs
 	mov	ds, ax
@@ -73,7 +73,7 @@ LABEL_BEGIN:
 
 
 [SECTION .s32]; 32 位代码段. 由实模式跳入.
-[BITS	32]
+[BITS	32];32位指令
 
 LABEL_SEG_CODE32:
 	mov	ax, SelectorVideo

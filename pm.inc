@@ -255,7 +255,7 @@ SA_TIL		EQU	4	; ┛
 ;        Base:  dd
 ;        Limit: dd (low 20 bits available)
 ;        Attr:  dw (lower 4 bits of higher byte are always 0)
-%macro Descriptor 3
+%macro Descriptor 3; 参数个数
 	dw	%2 & 0FFFFh				; 段界限 1				(2 字节)
 	dw	%1 & 0FFFFh				; 段基址 1				(2 字节)
 	db	(%1 >> 16) & 0FFh			; 段基址 2				(1 字节)
