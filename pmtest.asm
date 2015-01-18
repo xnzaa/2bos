@@ -51,7 +51,7 @@ DataLen			equ	$ - LABEL_DATA
 
 ; 全局堆栈段
 [SECTION .gs]
-ALIGN	32
+ALIGN	32			;32位对齐
 [BITS	32]
 LABEL_STACK:
 	times 512 db 0
@@ -75,7 +75,7 @@ LABEL_BEGIN:
 
 	; 初始化 16 位代码段描述符
 	mov	ax, cs
-	movzx	eax, ax
+	movzx	eax, ax		;将我们的源操作数取出来,然后置于目的操作数,目的操作数其余位用0填充
 	shl	eax, 4
 	add	eax, LABEL_SEG_CODE16
 	mov	word [LABEL_DESC_CODE16 + 2], ax
