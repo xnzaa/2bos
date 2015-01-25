@@ -68,7 +68,7 @@ LABEL_BEGIN:
 	mov	ds, ax
 	mov	es, ax
 	mov	ss, ax
-	mov	sp, 0100h
+	mov	sp, 0100h		; sp是栈顶指针
 
 	mov	[LABEL_GO_BACK_TO_REAL+3], ax
 	mov	[SPValueInRealMode], sp
@@ -183,7 +183,7 @@ LABEL_SEG_CODE32:
 	xor	edi, edi
 	mov	esi, OffsetPMMessage	; 源数据偏移
 	mov	edi, (80 * 10 + 0) * 2	; 目的数据偏移。屏幕第 10 行, 第 0 列。
-	cld
+	cld				; 清除方向标志 在字符串的比较，赋值，读取等一系列和rep连用的操作中，di或si是可以自动增减
 .1:
 	lodsb
 	test	al, al
@@ -272,7 +272,7 @@ DispAL:
 	add	edi, 2
 
 	mov	al, dl
-	loop	.begin
+	loop	.begin				; CPU自动将CX的值减1，若CX=0，则结束循环；否则，重复执行循环体
 	add	edi, 2
 
 	pop	edx
@@ -283,17 +283,17 @@ DispAL:
 
 
 ; ------------------------------------------------------------------------
-DispReturn:
+DispReturn:				;模拟回车，在新一行显示
 	push	eax
 	push	ebx
 	mov	eax, edi
-	mov	bl, 160
+	mov	bl, 160			;每行160个光标位置，100001的16进制是186A1H,这个被除数大于16位，所以要用32位来存储，DX存放高16位 0001，AX存放低16位 86A1H, 除数100可以存放在8位和16位都可以，但是如果除数100存放在8位中，因为上面说了，除数8位的话，运算的结果就会把商放入到AL中，AH保存余数。100001/100的商是1000余数是1 ，1000根本无法保存到AL中(AL最多保存255)，所以必须将100保存到16位中
 	div	bl
 	and	eax, 0FFh
-	inc	eax
+	inc	eax			;显示在商+1行
 	mov	bl, 160
 	mul	bl
-	mov	edi, eax
+	mov	edi, eax		;显示的绝对光标位置
 	pop	ebx
 	pop	eax
 
